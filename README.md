@@ -1,3 +1,3 @@
-Setup
+#Setup
 
-Install dependencies with npm install.
+Install dependencies with npm install(npm i).
