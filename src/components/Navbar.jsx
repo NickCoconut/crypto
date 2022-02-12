@@ -1,19 +1,46 @@
-import { Button, Menu, Typography, Avatar } from "antd";
-import { Link } from "react-router-dom";
-import { HomeOutlined, MoneyCollectOutLined, BulbOutlined, FundOutlined, MoneyCollectOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from 'react';
+import { Button, Menu, Typography, Avatar } from 'antd';
+import { Link } from 'react-router-dom';
+import { HomeOutlined, MoneyCollectOutlined, BulbOutlined, FundOutlined, MenuOutlined } from '@ant-design/icons';
 
-import React from 'react'
-import icon from "../images/cryptocurrency.png"
+import icon from '../images/cryptocurrency.png';
 
 const Navbar = () => {
+  const [activeMenu, setActiveMenu] = useState(true);
+  const [screenSize, setScreenSize] = useState(undefined);
+
+  useEffect(() => {
+    const handleResize = () => setScreenSize(window.innerWidth);
+
+    window.addEventListener('resize', handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (screenSize <= 800) {
+      setActiveMenu(false);
+    } else {
+      setActiveMenu(true);
+    }
+  }, [screenSize]);
+
   return (
     <div className="nav-container">
       <div className="logo-container">
         <Avatar src={icon} size="large" />
+<<<<<<< HEAD
         <Typography.Title Level={2} className="logo">
           <Link to="/">Cryptos</Link>
         </Typography.Title>
+=======
+        <Typography.Title level={2} className="logo"><Link to="/">Crypto</Link></Typography.Title>
+        <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)}><MenuOutlined /></Button>
+>>>>>>> 9cad6d63d6ac7c5a0f68d449ace401571ce8f42b
       </div>
+      {activeMenu && (
       <Menu theme="dark">
         <Menu.Item icon={<HomeOutlined />}>
           <Link to="/">Home</Link>
@@ -28,8 +55,9 @@ const Navbar = () => {
           <Link to="/news">News</Link>
         </Menu.Item>
       </Menu>
-      </div>
-  )  
-}
+      )}
+    </div>
+  );
+};
 
-export default Navbar
+export default Navbar;
