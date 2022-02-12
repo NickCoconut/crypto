@@ -11,7 +11,7 @@ const Navbar = () => {
       <div className="logo-container">
         <Avatar src={icon} size="large" />
         <Typography.Title Level={2} className="logo">
-          <Link to="/">CryptoCurrency</Link>
+          <Link to="/">Cryptos</Link>
         </Typography.Title>
       </div>
       <Menu theme="dark">
@@ -29,7 +29,7 @@ const Navbar = () => {
         </Menu.Item>
       </Menu>
       </div>
-  )
+  )  
 }
 
 export default Navbar
