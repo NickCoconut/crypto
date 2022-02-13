@@ -1,10 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Menu, Typography, Avatar } from 'antd';
-import { Link } from 'react-router-dom';
-const Login = () => {
-  return (
-    <>      
-    </>
-  );
-};
-export default Login;
+import React, { Component } from "react";
+
+export default class Login extends Component {
+  render() {
+    return (
+      <form>
+        <h3>Sign In</h3>
+
+        <label>Email address</label>
+        <input
+          type="email"
+          placeholder="Enter email"
+        />
+
+        <label>Password</label>
+        <input
+          type="password"
+          className="form-control"
+          placeholder="Enter password"
+        />
+        <br />
+        <br />
+        <button type="submit" className="buttonSolid">
+          Submit
+        </button>
+      </form>
+    );
+  }
+}
