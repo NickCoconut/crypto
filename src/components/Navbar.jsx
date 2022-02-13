@@ -31,14 +31,8 @@ const Navbar = () => {
     <div className="nav-container">
       <div className="logo-container">
         <Avatar src={icon} size="large" />
-<<<<<<< HEAD
-        <Typography.Title Level={2} className="logo">
-          <Link to="/">Cryptos</Link>
-        </Typography.Title>
-=======
         <Typography.Title level={2} className="logo"><Link to="/">Crypto</Link></Typography.Title>
         <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)}><MenuOutlined /></Button>
->>>>>>> 9cad6d63d6ac7c5a0f68d449ace401571ce8f42b
       </div>
       {activeMenu && (
       <Menu theme="dark">
