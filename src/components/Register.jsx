@@ -6,27 +6,19 @@ export default class SignUp extends Component {
         <h3>Sign Up</h3>
 
         <label>First name</label>
-        <input type="text" className="form-control" placeholder="First name" />
+        <input type="text" placeholder="First name" />
 
         <label>Last name</label>
-        <input type="text" className="form-control" placeholder="Last name" />
+        <input type="text" placeholder="Last name" />
 
         <label>Email address</label>
-        <input
-          type="email"
-          className="form-control"
-          placeholder="Enter email"
-        />
+        <input type="email" placeholder="Enter email" />
 
         <label>Password</label>
-        <input
-          type="password"
-          className="form-control"
-          placeholder="Enter password"
-        />
+        <input type="password" placeholder="Enter password" />
         <br />
         <br />
-        <button type="submit" className="btn btn-primary btn-block">
+        <button type="submit">
           Sign Up
         </button>
         <p className="forgot-password text-right">

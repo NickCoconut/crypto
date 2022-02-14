@@ -7,17 +7,10 @@ export default class Login extends Component {
         <h3>Sign In</h3>
 
         <label>Email address</label>
-        <input
-          type="email"
-          placeholder="Enter email"
-        />
+        <input type="email" placeholder="Enter email" />
 
         <label>Password</label>
-        <input
-          type="password"
-          className="form-control"
-          placeholder="Enter password"
-        />
+        <input type="password" placeholder="Enter password" />
         <br />
         <br />
         <button type="submit" className="buttonSolid">
