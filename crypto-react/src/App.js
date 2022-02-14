@@ -16,7 +16,7 @@ export default function App() {
       url: '???'
     })
     .then(res => {
-      ???
+      // ???
     })
     .catch(err => console.log(err));
   }, [])
@@ -35,6 +35,8 @@ export default function App() {
             <Route path="/cryptocurrencies" element={<Cryptocurrencies />} />
             <Route path="/crypto/:coinId" element={<CryptoDetails />} />
             <Route path="/news" element={<News />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </div>
       </Layout>
