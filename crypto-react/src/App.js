@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { Layout, Typography, Space } from 'antd';
 
-import axios from "./axios";
+import axios from "axios";
 
-import { Exchanges, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar } from './components';
+import { Exchanges, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, Login, Register } from './components';
 import './App.css';
 
 export default function App() {
