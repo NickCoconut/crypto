@@ -1,30 +1,49 @@
-import React, { Component } from "react";
-export default class SignUp extends Component {
-  render() {
-    return (
-      <form>
-        <h3>Sign Up</h3>
+import React, { useState } from "react";
+import axios from "axios";
+// export default class SignUp extends Component {
+//   render() {
+const SignUp = () => {
+  const [formDetails, setFormDetails] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
-        <label>First name</label>
-        <input type="text" placeholder="First name" />
-
-        <label>Last name</label>
-        <input type="text" placeholder="Last name" />
-
-        <label>Email address</label>
-        <input type="email" placeholder="Enter email" />
-
-        <label>Password</label>
-        <input type="password" placeholder="Enter password" />
-        <br />
-        <br />
-        <button type="submit">
-          Sign Up
-        </button>
-        <p className="forgot-password text-right">
-          Already registered <a href="/login">sign in?</a>
-        </p>
-      </form>
-    );
+  const handleChange = (e) => {
+    const name = e.target.name
+    const value = e.target.value
+    setFormDetails({...formDetails, [name] : value})
   }
-}
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(formDetails)
+
+   axios.post('http://localhost:3001/api/users', {formDetails})
+   .then(resp => console.log('resp', resp));
+    
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h3>Sign Up</h3>
+
+      <label>User name</label>
+      <input type="text" placeholder="Username" name='username' value={formDetails.username} onChange={handleChange}/>
+
+      <label>Email address</label>
+      <input type="email" placeholder="Enter email" name='email' value={formDetails.email} onChange={handleChange}/>
+
+      <label>Password</label>
+      <input type="password" placeholder="Enter password" name="password" value={formDetails.password} onChange={handleChange}/>
+      <br />
+      <br />
+      <button type="submit">Sign Up</button>
+      <p className="forgot-password text-right">
+        Already registered <a href="/login">sign in?</a>
+      </p>
+    </form>
+  );
+};
+
+export default SignUp;
