@@ -2,24 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { Layout, Typography, Space } from 'antd';
 
+<<<<<<< HEAD
 import axios from "axios";
+=======
+// import axios from "./axios";
+>>>>>>> e3d5f936d70c0832502a0b273e9c98c40a72ddc7
 
 import { Exchanges, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, Login, Register } from './components';
 import './App.css';
 
 export default function App() {
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    axios({
-      method: 'GET',
-      url: '???'
-    })
-    .then(res => {
-      // ???
-    })
-    .catch(err => console.log(err));
-  }, [])
+  // useEffect(() => {
+  //   axios({
+  //     method: 'GET',
+  //     url: '???'
+  //   })
+  //   .then(res => {
+  //     // ???
+  //   })
+  //   .catch(err => console.log(err));
+  // }, [])
 
   return (
   <div className="app">
@@ -42,7 +46,7 @@ export default function App() {
       </Layout>
       <div className="footer">
         <Typography.Title level={5} style={{ color: 'white', textAlign: 'center' }}>
-        Final project, Tofik and Yiyang.<br />
+        Final project, Dmitri, Tofik and Yiyang.<br />
           <Link to="/">
             Crypto Currency
           </Link> <br />
@@ -56,5 +60,3 @@ export default function App() {
     </div>
   </div>
 )};
-
-
