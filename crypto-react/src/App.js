@@ -10,16 +10,16 @@ import './App.css';
 export default function App() {
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    axios({
-      method: 'GET',
-      url: '???'
-    })
-    .then(res => {
-      ''
-    })
-    .catch(err => console.log(err));
-  }, [])
+  // useEffect(() => {
+  //   axios({
+  //     method: 'GET',
+  //     url: '???'
+  //   })
+  //   .then(res => {
+  //     ''
+  //   })
+  //   .catch(err => console.log(err));
+  // }, [])
 
   return (
   <div className="app">
