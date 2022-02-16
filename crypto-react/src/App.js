@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { Layout, Typography, Space } from 'antd';
 
-<<<<<<< HEAD
 import axios from "axios";
-=======
-// import axios from "./axios";
->>>>>>> e3d5f936d70c0832502a0b273e9c98c40a72ddc7
 
 import { Exchanges, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, Login, Register } from './components';
 import './App.css';
