@@ -7,3 +7,20 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
+
+module.exports = function(router, db, db_helpers){
+  router.get('/', (req,res) => {
+    
+    db_helpers.getallusers()
+    .then(resp => {
+      res.json({resp})
+    })
+  })
+  router.post('/',(req,res) => {
+    console.log(req.body);
+    const abc = {name: 'abc' }
+    res.json({abc})
+    return 
+  })
+  return router
+}
