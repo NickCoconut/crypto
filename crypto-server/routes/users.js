@@ -55,13 +55,17 @@ module.exports = function (router, db) {
       validUser.rows[0].password
     ); //checking the existing password with the inserted
 
+
     if (!passwordMatch) {
       console.log("Incorrect password!");
       return res.status(400).send("Incorrect password!");
+    } else{
+      console.log("Logged in!");
+      res.redirect("/")
     }
-
-    req.session[`user_id`] =  validUser.rows[0].id;
+    req.session.user_id =  validUser.rows[0].id;
     console.log(req.session[`user_id`] );
+
 
   });
 

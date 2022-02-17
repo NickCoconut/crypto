@@ -22,6 +22,9 @@ const Login = () => {
       .then((resp) => console.log("resp", resp));
   };
   return (
+    <div className="login">
+      <div className="log">
+
     <form onSubmit={handleSubmit}>
       <h3>Sign In</h3>
 
@@ -44,10 +47,13 @@ const Login = () => {
       />
       <br />
       <br />
-      <button type="submit" className="buttonSolid">
+      <button type="submit" className="buttonClass">
         Submit
       </button>
     </form>
+      </div>
+
+    </div>
   );
 };
 
