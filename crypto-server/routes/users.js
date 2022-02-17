@@ -2,13 +2,13 @@ var express = require("express");
 var router = express.Router();
 const client = require("../db");
 const bcrypt = require("bcryptjs");
+const app = express();
 
 var cookieSession = require("cookie-session");
-
-router.use(
+app.use(
   cookieSession({
     name: "session",
-    keys: ["key"],
+    keys: ["key1","key2"],
   })
 );
 
@@ -37,7 +37,6 @@ module.exports = function (router, db) {
   });
 
   router.post("/login", async (req, res) => {
-
     const { formDetails } = req.body;
 
     const validUser = await db.query(`SELECT * FROM users WHERE email = $1;`, [
@@ -61,8 +60,8 @@ module.exports = function (router, db) {
       return res.status(400).send("Incorrect password!");
     }
 
-    console.log('logged on')
-
+    req.session[`user_id`] =  validUser.rows[0].id;
+    console.log(req.session[`user_id`] );
 
   });
 
