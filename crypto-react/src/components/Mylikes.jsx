@@ -6,9 +6,9 @@ const Mylikes = () => {
 
   useEffect(() => {
 
-    axios.get('/mylikes')
+    axios.get('/cryptos/mylikes')
     .then(res => {
-
+      console.log(res)
     })
 
   }, [])
