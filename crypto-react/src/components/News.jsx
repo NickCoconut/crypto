@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Select, Typography, Row, Col, Avatar, Card } from 'antd';
 import moment from 'moment';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import { useGetCryptoNewsQuery } from '../services/cryptoNewsApi';
 import Loader from './Loader';
@@ -50,7 +51,7 @@ const News = ({ simplified }) => {
                   <Text className="provider-name">{news.provider[0]?.name}</Text>
                 </div>
                 <Text>{moment(news.datePublished).startOf('ss').fromNow()}</Text>
-                <FontAwesomeIcon icon="fa-solid fa-heart" />
+                <FontAwesomeIcon icon={faHeart} />
               </div>
             </a>
           </Card>
