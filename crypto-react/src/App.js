@@ -2,12 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { Layout, Typography, Space } from 'antd';
 
-// import axios from "./axios";
+import axios from "axios";
 
 import { Exchanges, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, Login, Register, Mylikes } from './components';
 import './App.css';
 
 export default function App() {
+  const [users, setUsers] = useState([]);
+
+  // useEffect(() => {
+  //   axios({
+  //     method: 'GET',
+  //     url: '???'
+  //   })
+  //   .then(res => {
+  //     ''
+  //   })
+  //   .catch(err => console.log(err));
+  // }, [])
 
   return (
   <div className="app">
