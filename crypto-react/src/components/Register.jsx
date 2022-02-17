@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-// export default class SignUp extends Component {
-//   render() {
+
 const SignUp = () => {
   const [formDetails, setFormDetails] = useState({
     username: "",
@@ -10,32 +9,50 @@ const SignUp = () => {
   });
 
   const handleChange = (e) => {
-    const name = e.target.name
-    const value = e.target.value
-    setFormDetails({...formDetails, [name] : value})
-  }
+    const name = e.target.name;
+    const value = e.target.value;
+    setFormDetails({ ...formDetails, [name]: value });
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(formDetails)
+    e.preventDefault();
+    console.log(formDetails);
 
-   axios.post('http://localhost:3001/api/users', {formDetails})
-   .then(resp => console.log('resp', resp));
-    
-  }
+    axios
+      .post("http://localhost:3001/api/users/register", { formDetails })
+      .then((resp) => console.log("resp", resp));
+  };
 
   return (
     <form onSubmit={handleSubmit}>
       <h3>Sign Up</h3>
 
       <label>User name</label>
-      <input type="text" placeholder="Username" name='username' value={formDetails.username} onChange={handleChange}/>
+      <input
+        type="text"
+        placeholder="Username"
+        name="username"
+        value={formDetails.username}
+        onChange={handleChange}
+      />
 
       <label>Email address</label>
-      <input type="email" placeholder="Enter email" name='email' value={formDetails.email} onChange={handleChange}/>
+      <input
+        type="email"
+        placeholder="Enter email"
+        name="email"
+        value={formDetails.email}
+        onChange={handleChange}
+      />
 
       <label>Password</label>
-      <input type="password" placeholder="Enter password" name="password" value={formDetails.password} onChange={handleChange}/>
+      <input
+        type="password"
+        placeholder="Enter password"
+        name="password"
+        value={formDetails.password}
+        onChange={handleChange}
+      />
       <br />
       <br />
       <button type="submit">Sign Up</button>
