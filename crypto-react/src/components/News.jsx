@@ -50,6 +50,7 @@ const News = ({ simplified }) => {
                   <Text className="provider-name">{news.provider[0]?.name}</Text>
                 </div>
                 <Text>{moment(news.datePublished).startOf('ss').fromNow()}</Text>
+                <FontAwesomeIcon icon="fa-solid fa-heart" />
               </div>
             </a>
           </Card>
