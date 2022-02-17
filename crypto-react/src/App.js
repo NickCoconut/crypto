@@ -4,22 +4,10 @@ import { Layout, Typography, Space } from 'antd';
 
 // import axios from "./axios";
 
-import { Exchanges, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, Login, Register } from './components';
+import { Exchanges, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, Login, Register, Mylikes } from './components';
 import './App.css';
 
 export default function App() {
-  // const [users, setUsers] = useState([]);
-
-  // useEffect(() => {
-  //   axios({
-  //     method: 'GET',
-  //     url: '???'
-  //   })
-  //   .then(res => {
-  //     // ???
-  //   })
-  //   .catch(err => console.log(err));
-  // }, [])
 
   return (
   <div className="app">
@@ -37,6 +25,7 @@ export default function App() {
             <Route path="/news" element={<News />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/mylikes" element={<Mylikes />} />
           </Routes>
         </div>
       </Layout>

@@ -54,6 +54,9 @@ const Navbar = () => {
         <Menu.Item icon={<StarOutlined />}>
           <Link to="/register">Register</Link>
         </Menu.Item>
+        <Menu.Item icon={<StarOutlined />}>
+          <Link to="/mylikes">Favorites</Link>
+        </Menu.Item>
       </Menu>
       )}
     </div>

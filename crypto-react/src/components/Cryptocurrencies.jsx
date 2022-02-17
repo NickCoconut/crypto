@@ -2,25 +2,35 @@ import React, { useEffect, useState } from 'react';
 import millify from 'millify';
 import { Link } from 'react-router-dom';
 import { Card, Row, Col, Input } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios';
 
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import Loader from './Loader';
+import { combineReducers } from '@reduxjs/toolkit';
 
 const Cryptocurrencies = ({ simplified }) => {
   const count = simplified ? 10 : 100;
   const { data: cryptosList, isFetching } = useGetCryptosQuery(count);
+  console.log(cryptosList)
   const [cryptos, setCryptos] = useState();
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     setCryptos(cryptosList?.data?.coins);
-
     const filteredData = cryptosList?.data?.coins.filter((item) => item.name.toLowerCase().includes(searchTerm));
 
     setCryptos(filteredData);
+    
   }, [cryptosList, searchTerm]);
 
   if (isFetching) return <Loader />;
+
+  const handleLike = (currencyCoin) => {
+    axios.get('http://localhost:3001/users/abc')
+    .then(res => console.log('response', res))
+  }
 
   return (
     <>
@@ -51,8 +61,18 @@ const Cryptocurrencies = ({ simplified }) => {
                 <p>Price: {millify(currency.price)}</p>
                 <p>Market Cap: {millify(currency.marketCap)}</p>
                 <p>Daily Change: {currency.change}%</p>
+                            
               </Card>
             </Link>
+           
+            <FontAwesomeIcon icon={faHeart} onClick={() => handleLike(currency)}/>
+
+            {/* <form action={`/cryptos/${currency.uuid}/like`} method="POST">
+              <button type="submit" >
+              <FontAwesomeIcon icon={faHeart} />
+              </button>
+            </form> */}
+            
           </Col>
         ))}
       </Row>
