@@ -82,7 +82,6 @@ module.exports = (db) => {
       }
 
       req.session.user = validUser.rows[0];
-      
       return res.status(200).send(validUser.rows[0])
     } catch (error) {
       return res.status(400).send({ message: error.message });
