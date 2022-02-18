@@ -51,7 +51,10 @@ const News = ({ simplified }) => {
                   <Text className="provider-name">{news.provider[0]?.name}</Text>
                 </div>
                 <Text>{moment(news.datePublished).startOf('ss').fromNow()}</Text>
-                <FontAwesomeIcon icon={faHeart} onClick={() => console.log("clicked")}/>
+              </div>
+              <div className="fudge-container">
+                <FontAwesomeIcon icon={faHeart} onClick={() => console.log("clicked")} />
+                <input type="text" value={"Comment"} />
               </div>
             </a>
           </Card>
