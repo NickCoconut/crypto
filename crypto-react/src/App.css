@@ -312,6 +312,10 @@ a:hover {
   display: flex;
   justify-content: space-between;
 }
+.fudge-container {
+  display: flex;
+  justify-content: space-between;
+}
 .provider-name {
   margin-left: 10px;
 }

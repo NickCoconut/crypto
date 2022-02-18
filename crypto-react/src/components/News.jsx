@@ -44,6 +44,7 @@ const News = ({ simplified }) => {
                 <Title className="news-title" level={4}>{news.name}</Title>
                 <img src={news?.image?.thumbnail?.contentUrl || demoImage} alt="" />
               </div>
+            </a>
               <p>{news.description.length > 100 ? `${news.description.substring(0, 100)}...` : news.description}</p>
               <div className="provider-container">
                 <div>
@@ -56,7 +57,6 @@ const News = ({ simplified }) => {
                 <FontAwesomeIcon icon={faHeart} onClick={() => console.log("clicked")} />
                 <input type="text" value={"Comment"} />
               </div>
-            </a>
           </Card>
         </Col>
       ))}
