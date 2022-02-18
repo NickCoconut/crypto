@@ -25,7 +25,7 @@ router.post("/:currencyId/like", async (req, res) => {
     await db.query(
       `INSERT INTO liked_cryptos (crypto_url_id, user_id)
     VALUES ($1, $2) RETURNING *;`,
-      [currencyId, user_id]
+      [currencyId, validUser.rows[0].id]
     );
     return res.redirect("/mylikes");
   } catch (error) {
@@ -47,7 +47,7 @@ router.get("/mylikes", async (req, res) => {
       return res.redirect("/");
     }
 
-    const likedCryptos = await db.query(`SELECT * FROM liked_cryptos WHERE user_id = $1;`, [user_id]);
+    const likedCryptos = await db.query(`SELECT * FROM liked_cryptos WHERE user_id = $1;`, validUser.rows[0].id);
 
     return res.json(likedCryptos)
 

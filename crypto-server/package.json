@@ -19,7 +19,8 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "pg": "^8.7.3",
-    "pg-native": "^3.0.0"
+    "pg-native": "^3.0.0",
+    "react-cookie": "^4.1.1"
   },
   "devDependencies": {
     "dotenv": "^16.0.0",

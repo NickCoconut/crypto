@@ -7,12 +7,12 @@ const logger = require("morgan");
 const db = require("./db");
 const bodyParser = require("body-parser");
 const router = express.Router();
-const helpers = require("./helpers/db_helpers");
+
 const cors = require("cors");
 
-const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const cryptosRouter = require('./routes/cryptos');
+
 var cookieSession = require("cookie-session");
 app.use(
   cookieSession({
@@ -33,7 +33,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use('/users', usersRouter(db))
 app.use("/cryptos", cryptosRouter(db));
+
 var expressSession = require("express-session");
 app.use(
   expressSession({
@@ -42,11 +45,6 @@ app.use(
     resave: false,
   })
 );
-
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-usersRouter(router, db, helpers);
-app.use("/api/users", router);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,72 +1,91 @@
-var express = require("express");
-var router = express.Router();
-const client = require("../db");
+const express = require("express");
 const bcrypt = require("bcryptjs");
-const app = express();
+const router = express.Router();
 
-var cookieSession = require("cookie-session");
-app.use(
-  cookieSession({
-    name: "session",
-    keys: ["key1","key2"],
-  })
-);
-
-module.exports = router;
-
-module.exports = function (router, db) {
+//register page
+module.exports = (db) => {
+  
   router.post("/register", async (req, res) => {
-    const { formDetails } = req.body;
-
-    const emailExists = await db.query(
-      `SELECT * FROM users WHERE email = $1;`,
-      [formDetails.email]
-    );
-    if (emailExists.rows[0]) {
-      console.log("The email is already registered!");
-      return res.status(400).send("The email is already registered!");
+    const { user_id } = req.session; // checking cookies
+    if (user_id) {
+      return res.status(400).send("You are already logged in!");
     }
 
-    const hashedPassword = bcrypt.hashSync(formDetails.password, 10);
-
-    const newTodo = await client.query(
-      `INSERT INTO users (user_name, email, password) VALUES ($1, $2, $3) returning *;`,
-      [formDetails.username, formDetails.email, hashedPassword]
-    );
-    res.json(newTodo.rows[0]);
-  });
-
-  router.post("/login", async (req, res) => {
-    const { formDetails } = req.body;
-
-    const validUser = await db.query(`SELECT * FROM users WHERE email = $1;`, [
-      formDetails.email,
-    ]); //checking email from the db
-
-    if (!validUser.rows[0]) {
-      console.log("This user does not exist! You have to register!");
+    const { username, email, password } = req.body.formDetails;
+    
+    if (!username || !email || !password) {
       return res
         .status(400)
-        .send("This user does not exist! You have to register!");
+        .send("You need to fill username, email or password fields correctly.");
     }
 
-    const passwordMatch = bcrypt.compareSync(
-      formDetails.password,
-      validUser.rows[0].password
-    ); //checking the existing password with the inserted
+    try {
+      const emailExists = await db.query(
+        `SELECT * FROM users WHERE email = $1;`,
+        [email]
+      ); //checking email from the db
+      if (emailExists.rows[0]) {
+        return res.status(400).send("The email is already registered!");
+      }
 
-
-    if (!passwordMatch) {
-      console.log("Incorrect password!");
-      return res.status(400).send("Incorrect password!");
-    } else{
-      console.log("Logged in!");
-      res.redirect("/")
+      const hashedPassword = bcrypt.hashSync(password, 10);
+      await db.query(
+        `INSERT INTO users (user_name, email, password) VALUES ($1, $2, $3) RETURNING *;`,
+        [username, email, hashedPassword]
+      );
+      return res.redirect("/login");
+    } catch (error) {
+      return res.status(400).send({ message: error.message });
     }
-    req.session.user_id =  validUser.rows[0].id;
-    console.log(req.session[`user_id`] );
+  });
 
 
+
+  router.post("/login", async (req, res) => {
+
+    const { user_id } = req.session; // checking cookies
+    if (user_id) {
+      return res.status(400).send("You are already logged in!");
+    }
+
+    const { email, password } = req.body.formDetails;
+    
+    if (!email || !password) {
+      return res
+        .status(400)
+        .send("You need to fill email or password fields correctly.");
+    }
+
+    try {
+      const validUser = await db.query(
+        `SELECT * FROM users WHERE email = $1;`,
+        [email]
+      ); //checking email from the db
+      if (!validUser.rows[0]) {
+        return res
+          .status(400)
+          .send("This user does not exist! You have to register!");
+      }
+
+      const passwordMatch = bcrypt.compareSync(
+        password,
+        validUser.rows[0].password
+      ); //checking the existing password with the inserted
+      if (!passwordMatch) {
+        return res.status(400).send("Incorrect password!");
+      }
+
+      req.session.user_id = validUser.rows[0].id;
+      return res.status(200).json({user: validUser.rows[0]})
+    } catch (error) {
+      return res.status(400).send({ message: error.message });
+    }
+  });
+
+
+  router.post("/logout", (req, res) => {
+    req.session = null;
+    return res.redirect("/");
   });
 
   return router;

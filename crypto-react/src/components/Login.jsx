@@ -18,8 +18,9 @@ const Login = () => {
     console.log(formDetails);
 
     axios
-      .post("http://localhost:3001/api/users/login", { formDetails })
-      .then((resp) => console.log("resp", resp));
+      .post("http://localhost:3001/users/login", { formDetails })
+      .then((resp) => {console.log("resp", resp)});
+      
   };
   return (
     <div className="login">

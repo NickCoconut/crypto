@@ -19,7 +19,7 @@ const SignUp = () => {
     console.log(formDetails);
 
     axios
-      .post("http://localhost:3001/api/users/register", { formDetails })
+      .post("http://localhost:3001/users/register", { formDetails })
       .then((resp) => console.log("resp", resp));
   };
 

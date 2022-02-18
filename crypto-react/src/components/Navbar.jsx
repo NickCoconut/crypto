@@ -57,6 +57,7 @@ const Navbar = () => {
         <Menu.Item icon={<StarOutlined />}>
           <Link to="/mylikes">Favorites</Link>
         </Menu.Item>
+        
       </Menu>
       )}
     </div>
