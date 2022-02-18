@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 const Login = () => {
   const [formDetails, setFormDetails] = useState({
     email: "",
     password: "",
   });
+  const [loginStatus, setLoginStatus] = useState('')
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/users/login")
+    .then((response) => {
+      if (response.data.loggedIn == true) {
+        setLoginStatus(response.data.user[0].id)
+      }
+    })
+  }, [])
 
   const handleChange = (e) => {
     const name = e.target.name;
