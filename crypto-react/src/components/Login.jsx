@@ -1,22 +1,61 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
-export default class Login extends Component {
-  render() {
-    return (
-      <form>
-        <h3>Sign In</h3>
+const Login = () => {
+  const [formDetails, setFormDetails] = useState({
+    email: "",
+    password: "",
+  });
 
-        <label>Email address</label>
-        <input type="email" placeholder="Enter email" />
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFormDetails({ ...formDetails, [name]: value });
+  };
 
-        <label>Password</label>
-        <input type="password" placeholder="Enter password" />
-        <br />
-        <br />
-        <button type="submit" className="buttonSolid">
-          Submit
-        </button>
-      </form>
-    );
-  }
-}
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formDetails);
+
+    axios
+      .post("http://localhost:3001/users/login", { formDetails })
+      .then((resp) => {console.log("resp", resp)});
+      
+  };
+  return (
+    <div className="login">
+      <div className="log">
+
+    <form onSubmit={handleSubmit}>
+      <h3>Sign In</h3>
+
+      <label>Email address</label>
+      <input
+        type="email"
+        placeholder="Enter email"
+        name="email"
+        value={formDetails.email}
+        onChange={handleChange}
+      />
+
+      <label>Password</label>
+      <input
+        type="password"
+        placeholder="Enter password"
+        name="password"
+        value={formDetails.password}
+        onChange={handleChange}
+      />
+      <br />
+      <br />
+      <button type="submit" className="buttonClass">
+        Submit
+      </button>
+    </form>
+      </div>
+
+    </div>
+  );
+};
+
+export default Login;
