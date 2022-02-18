@@ -39,7 +39,13 @@ module.exports = (db) => {
     }
   });
 
-
+  router.get("/login", (req, res) => {
+    if (req.session.user) {
+      res.send({loggedIn: true, user: req.session.user})
+    } else {
+      res.send({loggedIn: false })
+    }
+  })
 
   router.post("/login", async (req, res) => {
 
@@ -75,8 +81,9 @@ module.exports = (db) => {
         return res.status(400).send("Incorrect password!");
       }
 
-      req.session.user_id = validUser.rows[0].id;
-      return res.status(200).json({user: validUser.rows[0]})
+      req.session.user = validUser.rows[0];
+      
+      return res.status(200).send(validUser.rows[0])
     } catch (error) {
       return res.status(400).send({ message: error.message });
     }
