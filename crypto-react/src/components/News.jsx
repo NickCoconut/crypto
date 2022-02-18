@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Select, Typography, Row, Col, Avatar, Card } from 'antd';
 import moment from 'moment';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import { useGetCryptoNewsQuery } from '../services/cryptoNewsApi';
 import Loader from './Loader';
@@ -43,6 +44,7 @@ const News = ({ simplified }) => {
                 <Title className="news-title" level={4}>{news.name}</Title>
                 <img src={news?.image?.thumbnail?.contentUrl || demoImage} alt="" />
               </div>
+            </a>
               <p>{news.description.length > 100 ? `${news.description.substring(0, 100)}...` : news.description}</p>
               <div className="provider-container">
                 <div>
@@ -51,7 +53,10 @@ const News = ({ simplified }) => {
                 </div>
                 <Text>{moment(news.datePublished).startOf('ss').fromNow()}</Text>
               </div>
-            </a>
+              <div className="fudge-container">
+                <FontAwesomeIcon icon={faHeart} onClick={() => console.log("clicked")} />
+                <input type="text" value={"Comment"} />
+              </div>
           </Card>
         </Col>
       ))}
