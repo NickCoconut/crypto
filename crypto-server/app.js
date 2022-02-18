@@ -10,22 +10,21 @@ const router = express.Router();
 const helpers = require("./helpers/db_helpers");
 const cors = require("cors");
 
+const cookieParser = require("cookie-parser");
+
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 
-var cookieSession = require("cookie-session");
-app.use(
-  cookieSession({
-    name: "session",
-    keys: ["key1","key2"],
-  })
-);
-
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
+// var cookieSession = require("cookie-session");
+// app.use(
+//   cookieSession({
+//     name: "session",
+//     keys: ["key1", "key2"],
+//   })
+// );
 
 app.use(cors());
+app.use(cookieParser());
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -34,14 +33,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-var expressSession = require("express-session");
-app.use(
-  expressSession({
-    secret: "your secret",
-    saveUninitialized: true,
-    resave: false,
-  })
-);
+let expressSession = require("express-session");
 
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);

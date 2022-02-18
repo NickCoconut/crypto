@@ -4,11 +4,13 @@ const client = require("../db");
 const bcrypt = require("bcryptjs");
 const app = express();
 
-var cookieSession = require("cookie-session");
+let expressSession = require("express-session");
 app.use(
-  cookieSession({
-    name: "session",
-    keys: ["key1","key2"],
+  expressSession({
+    secret: "your secret",
+    saveUninitialized: false,
+    resave: false,
+    cookie: {maxAge: 10000},
   })
 );
 
@@ -55,18 +57,18 @@ module.exports = function (router, db) {
       validUser.rows[0].password
     ); //checking the existing password with the inserted
 
+    console.log("password", passwordMatch);
 
     if (!passwordMatch) {
       console.log("Incorrect password!");
       return res.status(400).send("Incorrect password!");
-    } else{
-      console.log("Logged in!");
-      res.redirect("/")
+    } else {
+      console.log("logged in");
+      req.session.user_id = validUser.rows[0].id;
+      console.log(req.session.user_id)
+      // res.cookie("user_id", `${validUser.rows[0].id}`)
+      // console.log(res.cookie("user_id", `${validUser.rows[0].id}`));
     }
-    req.session.user_id =  validUser.rows[0].id;
-    console.log(req.session[`user_id`] );
-
-
   });
 
   return router;
