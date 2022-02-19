@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 axios.defaults.withCredentials = true;
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formDetails, setFormDetails] = useState({
     email: "",
     password: "",
   });
-  const [loginStatus, setLoginStatus] = useState('')
+  const [loginStatus, setLoginStatus] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/users/login")
-    .then((response) => {
+    axios.get("http://localhost:3001/users/login").then((response) => {
       if (response.data.loggedIn == true) {
-        setLoginStatus(response.data.user[0].id)
+        setLoginStatus(response.data.user[0].id);
       }
-    })
-  }, [])
+    });
+  }, []);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -31,41 +32,43 @@ const Login = () => {
 
     axios
       .post("http://localhost:3001/users/login", { formDetails })
-      .then((resp) => {console.log("resp", resp)});
-      
+      .then((resp) => {
+        if (resp.data.loggedIn) {
+          console.log(resp.data.loggedIn); 
+          navigate("/");
+        }
+      });
   };
   return (
     <div className="login">
       <div className="log">
+        <form onSubmit={handleSubmit}>
+          <h3>Sign In</h3>
 
-    <form onSubmit={handleSubmit}>
-      <h3>Sign In</h3>
+          <label>Email address</label>
+          <input
+            type="email"
+            placeholder="Enter email"
+            name="email"
+            value={formDetails.email}
+            onChange={handleChange}
+          />
 
-      <label>Email address</label>
-      <input
-        type="email"
-        placeholder="Enter email"
-        name="email"
-        value={formDetails.email}
-        onChange={handleChange}
-      />
-
-      <label>Password</label>
-      <input
-        type="password"
-        placeholder="Enter password"
-        name="password"
-        value={formDetails.password}
-        onChange={handleChange}
-      />
-      <br />
-      <br />
-      <button type="submit" className="buttonClass">
-        Submit
-      </button>
-    </form>
+          <label>Password</label>
+          <input
+            type="password"
+            placeholder="Enter password"
+            name="password"
+            value={formDetails.password}
+            onChange={handleChange}
+          />
+          <br />
+          <br />
+          <button type="submit" className="buttonClass">
+            Submit
+          </button>
+        </form>
       </div>
-
     </div>
   );
 };
