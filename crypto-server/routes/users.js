@@ -33,7 +33,7 @@ module.exports = (db) => {
         `INSERT INTO users (user_name, email, password) VALUES ($1, $2, $3) RETURNING *;`,
         [username, email, hashedPassword]
       );
-      return res.redirect("/login");
+      return res.status(200);
     } catch (error) {
       return res.status(400).send({ message: error.message });
     }
@@ -91,7 +91,7 @@ module.exports = (db) => {
 
   router.post("/logout", (req, res) => {
     req.session = null;
-    return res.redirect("/");
+    return res.status(200);
   });
 
   return router;

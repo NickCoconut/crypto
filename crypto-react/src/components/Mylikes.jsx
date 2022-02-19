@@ -18,35 +18,44 @@ const Mylikes = ({simplified}) => {
   const[likedCryptos, setLikedCryptos] = useState([]);
   const[likedCryptosId, setLikedCryptosId] = useState([]);
   const[searchTerm, setSearchTerm] = useState('');
-
-  useEffect(() => {
-    axios.get('/cryptos/mylikes')
+  
+const getLikes = () => {
+  axios.get('/cryptos/mylikes')
     .then(res => {
-      console.log(res.data.rows)
+      // console.log(res.data.rows)
       setLikedCryptosId(res.data.rows.map((row) => row.crypto_url_id))
     })
+};
+
+  useEffect(() => {
+    getLikes()
   }, [cryptosList])
-    
+
+
+
   useEffect(() => {
     if(likedCryptosId.length > 0 && cryptosList) {
-      console.log(cryptosList)
+      
       setLikedCryptos(cryptosList?.data.coins.filter((coin) => likedCryptosId.includes(coin.uuid)) || [])
+    } else {
+      setLikedCryptos([])
     }
   }, [likedCryptosId])
 
 
   useEffect(() => {
-    const filteredData = cryptosList?.data?.coins.filter((item) => item.name.toLowerCase().includes(searchTerm));
-    setLikedCryptos(filteredData);
+    const filteredData = cryptosList?.data.coins.filter((coin) => likedCryptosId.includes(coin.uuid) && coin.name.toLowerCase().includes(searchTerm));
+    setLikedCryptos(filteredData || []);
     
-  }, [cryptosList, searchTerm]);
+  }, [searchTerm]);
+
 
   if (isFetching) return <Loader />;
 
   const handleDelete = (currencyId) => {
     
     axios.post(`http://localhost:3001/cryptos/${currencyId}/unlike`)
-    .then(res => console.log('response', res))
+    .then(res => getLikes())
   }
 
   return (
@@ -82,6 +91,7 @@ const Mylikes = ({simplified}) => {
               </Card>
             </Link>
 
+            
             <FontAwesomeIcon icon={faTrashCan} onClick={() => handleDelete(currency.uuid)}/>
             
           </Col>
