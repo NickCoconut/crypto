@@ -28,8 +28,8 @@ const Cryptocurrencies = ({ simplified }) => {
   if (isFetching) return <Loader />;
 
   const handleLike = (currencyId) => {
-    console.log(currencyId)
-    axios.post(`/cryptos/${currencyId}/like`)
+    
+    axios.post(`http://localhost:3001/cryptos/${currencyId}/like`)
     .then(res => console.log('response', res))
   }
 
@@ -68,12 +68,6 @@ const Cryptocurrencies = ({ simplified }) => {
             </Link>
            
             <FontAwesomeIcon icon={faHeart} onClick={() => handleLike(currency.uuid)}/>
-
-            {/* <form action={`/cryptos/${currency.uuid}/like`} method="POST">
-              <button type="submit" >
-              <FontAwesomeIcon icon={faHeart} />
-              </button>
-            </form> */}
             
           </Col>
         ))}

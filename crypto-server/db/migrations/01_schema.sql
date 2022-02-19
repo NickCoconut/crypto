@@ -23,11 +23,6 @@ CREATE TABLE liked_news(
     news_url_id INTEGER REFERENCES news(id) ON DELETE CASCADE
 );
 
--- CREATE TABLE cryptos(
---     id SERIAL PRIMARY KEY NOT NULL,
---     crypto_url VARCHAR(255) NOT NULL
--- );
-
 CREATE TABLE liked_cryptos(
     id SERIAL PRIMARY KEY NOT NULL,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
