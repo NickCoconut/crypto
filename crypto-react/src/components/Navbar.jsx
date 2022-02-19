@@ -31,7 +31,7 @@ const Navbar = () => {
     <div className="nav-container">
       <div className="logo-container">
         <Avatar src={icon} size="large" />
-        <Typography.Title level={2} className="logo"><Link to="/">Crypto</Link></Typography.Title>
+        <Typography.Title level={2} className="logo logo-text"><Link to="/" className='a'>Crypto</Link></Typography.Title>
         <Button className="menu-control-container" onClick={() => setActiveMenu(!activeMenu)}><MenuOutlined /></Button>
       </div>
       {activeMenu && (
@@ -42,9 +42,7 @@ const Navbar = () => {
         <Menu.Item icon={<FundOutlined />}>
           <Link to="/cryptocurrencies">Cryptocurrencies</Link>
         </Menu.Item>
-        <Menu.Item icon={<MoneyCollectOutlined />}>
-          <Link to="/exchanges">Exchanges</Link>
-        </Menu.Item>
+        
         <Menu.Item icon={<BulbOutlined />}>
           <Link to="/news">News</Link>
         </Menu.Item>
@@ -54,6 +52,10 @@ const Navbar = () => {
         <Menu.Item icon={<StarOutlined />}>
           <Link to="/register">Register</Link>
         </Menu.Item>
+        <Menu.Item icon={<StarOutlined />}>
+          <Link to="/mylikes">Favorites</Link>
+        </Menu.Item>
+        
       </Menu>
       )}
     </div>
