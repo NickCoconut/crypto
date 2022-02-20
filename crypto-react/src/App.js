@@ -1,26 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { Layout, Typography, Space } from 'antd';
+import { useCookies } from "react-cookie";
 
 import axios from "axios";
 
-import { Exchanges, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, Login, Register } from './components';
+import { Exchanges, Homepage, News, Cryptocurrencies, CryptoDetails, Navbar, Login, Register, Mylikes } from './components';
 import './App.css';
 
 export default function App() {
-  // const [users, setUsers] = useState([]);
 
-  // useEffect(() => {
-  //   axios({
-  //     method: 'GET',
-  //     url: '???'
-  //   })
-  //   .then(res => {
-  //     // ???
-  //   })
-  //   .catch(err => console.log(err));
-  // }, [])
-
+  axios.defaults.withCredentials = true;
+  
   return (
   <div className="app">
     <div className="navbar">
@@ -31,12 +22,13 @@ export default function App() {
         <div className="routes">
           <Routes>
             <Route path="/" element={<Homepage />} />   
-            <Route path="/exchanges" element={<Exchanges />} />
+            
             <Route path="/cryptocurrencies" element={<Cryptocurrencies />} />
             <Route path="/crypto/:coinId" element={<CryptoDetails />} />
             <Route path="/news" element={<News />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/mylikes" element={<Mylikes />} />
           </Routes>
         </div>
       </Layout>
