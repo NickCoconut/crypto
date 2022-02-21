@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-<<<<<<< HEAD
-
-const SignUp = () => {
-=======
 import { useNavigate } from "react-router";
 
 const SignUp = () => {
   const navigate = useNavigate();
->>>>>>> master
   const [formDetails, setFormDetails] = useState({
     username: "",
     email: "",
@@ -26,17 +21,12 @@ const SignUp = () => {
     console.log(formDetails);
 
     axios
-<<<<<<< HEAD
-      .post("http://localhost:3001/users/register", { formDetails })
-      .then((resp) => console.log("resp", resp));
-=======
       .post("http://localhost:3001/users/Register", { formDetails })
       .then((resp) => {
         if (resp.data.signedUp) {
           navigate("/login");
         }
       });
->>>>>>> master
   };
 
   return (
