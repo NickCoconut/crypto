@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Select, Typography, Row, Col, Avatar, Card } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import { useGetCryptoNewsQuery } from '../services/cryptoNewsApi';
@@ -18,15 +18,39 @@ const { Option } = Select;
 const News = ({ simplified }) => {
   const [newsCategory, setNewsCategory] = useState('Cryptocurrency');
   const { data } = useGetCryptosQuery(100);
-  const { data: cryptoNews } = useGetCryptoNewsQuery({ newsCategory, count: simplified ? 6 : 12 });
+  const { data: cryptoNews, isFetching } = useGetCryptoNewsQuery({ newsCategory, count: simplified ? 6 : 12 });
 
-  if (!cryptoNews?.value) return <Loader />;
+  const[likedNews, setLikedNews] = useState([]);
+  const[likedNewsUrl, setLikedNewsUrl] = useState([]);
+
+  const getLikes = () => {
+    axios.get('/news/mylikes')
+      .then(res => {
+        setLikedNewsUrl(res.data.rows.map((row) => row.news_url))
+    })  
+};
+
+  useEffect(() => {
+    getLikes()
+  }, [cryptoNews])
 
 
-  const handleLike = (newsUrl) => {
-    
-    axios.post('http://localhost:3001/news/likedNews', {likedNewsUrl: newsUrl})
-    .then(res => console.log('response', res))
+  useEffect(() => {
+    if(likedNewsUrl.length > 0 && cryptoNews) {
+      const likedCryptoNews = cryptoNews?.value.filter((news) => likedNewsUrl.includes(news.url)) || []
+      setLikedNews(likedCryptoNews)
+    } else {
+      setLikedNews([])
+    }
+  }, [likedNewsUrl])
+
+
+  if (isFetching) return <Loader />;
+
+
+  const handleDelete = (newsUrl) => {
+    axios.post('http://localhost:3001/news/unlike', {unlikedNews: newsUrl})
+    .then(res => getLikes())
   }
 
   return (
@@ -46,7 +70,7 @@ const News = ({ simplified }) => {
           </Select>
         </Col>
       )}
-      {cryptoNews.value.map((news, i) => (
+      {likedNews?.map((news, i) => (
         <Col xs={24} sm={12} lg={8} key={i}>
           <Card hoverable className="news-card">
             <a href={news.url} target="_blank" rel="noreferrer">
@@ -64,7 +88,7 @@ const News = ({ simplified }) => {
               </div>
             </a>
           </Card>
-          <FontAwesomeIcon icon={faHeart} onClick={() => handleLike(news.url)}/>
+          <FontAwesomeIcon icon={faTrashCan} onClick={() => handleDelete(news.url)} />
         </Col>
       ))}
     </Row>
