@@ -12,15 +12,10 @@ CREATE TABLE users(
     password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE news(
-    id SERIAL PRIMARY KEY NOT NULL,
-    news_url VARCHAR(255) NOT NULL
-);
-
 CREATE TABLE liked_news(
     id SERIAL PRIMARY KEY NOT NULL,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    news_url_id INTEGER REFERENCES news(id) ON DELETE CASCADE
+    news_url VARCHAR(500) NOT NULL
 );
 
 CREATE TABLE liked_cryptos(
@@ -32,6 +27,5 @@ CREATE TABLE liked_cryptos(
 CREATE TABLE comments(
     id SERIAL PRIMARY KEY NOT NULL,
     content TEXT,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    news_url_id INTEGER REFERENCES news(id) ON DELETE CASCADE
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
 );

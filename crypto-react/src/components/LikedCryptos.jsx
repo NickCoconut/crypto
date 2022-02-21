@@ -3,36 +3,60 @@ import millify from 'millify';
 import { Link } from 'react-router-dom';
 import { Card, Row, Col, Input } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
+
 import axios from 'axios';
 
 import { useGetCryptosQuery } from '../services/cryptoApi';
 import Loader from './Loader';
 import { combineReducers } from '@reduxjs/toolkit';
 
-const Cryptocurrencies = ({ simplified }) => {
-  const count = simplified ? 12 : 100;
+const Cryptos = ({simplified}) => {
+  const count = simplified ? 10 : 100;
   const { data: cryptosList, isFetching } = useGetCryptosQuery(count);
-  console.log(cryptosList)
-  const [cryptos, setCryptos] = useState();
-  const [searchTerm, setSearchTerm] = useState('');
+
+  const[likedCryptos, setLikedCryptos] = useState([]);
+  const[likedCryptosId, setLikedCryptosId] = useState([]);
+  const[searchTerm, setSearchTerm] = useState('');
+  
+const getLikes = () => {
+  axios.get('/cryptos/mylikes')
+    .then(res => {
+      // console.log(res.data.rows)
+      setLikedCryptosId(res.data.rows.map((row) => row.crypto_url_id))
+    })
+};
 
   useEffect(() => {
-    setCryptos(cryptosList?.data?.coins);
-    const filteredData = cryptosList?.data?.coins.filter((item) => item.name.toLowerCase().includes(searchTerm));
+    getLikes()
+  }, [cryptosList])
 
-    setCryptos(filteredData);
+
+
+  useEffect(() => {
+    if(likedCryptosId.length > 0 && cryptosList) {
+      
+      setLikedCryptos(cryptosList?.data.coins.filter((coin) => likedCryptosId.includes(coin.uuid)) || [])
+    } else {
+      setLikedCryptos([])
+    }
+  }, [likedCryptosId])
+
+
+  useEffect(() => {
+    const filteredData = cryptosList?.data.coins.filter((coin) => likedCryptosId.includes(coin.uuid) && coin.name.toLowerCase().includes(searchTerm));
+    setLikedCryptos(filteredData || []);
     
-  }, [cryptosList, searchTerm]);
+  }, [searchTerm]);
+
 
   if (isFetching) return <Loader />;
 
-  const handleLike = (currencyId) => {
+  const handleDelete = (currencyId) => {
     
-    axios.post(`http://localhost:3001/cryptos/${currencyId}/like`)
-    .then(res => console.log('response', res))
+    axios.post(`http://localhost:3001/cryptos/${currencyId}/unlike`)
+    .then(res => getLikes())
   }
-
 
   return (
     <>
@@ -45,7 +69,7 @@ const Cryptocurrencies = ({ simplified }) => {
         </div>
       )}
       <Row gutter={[32, 32]} className="crypto-card-container">
-        {cryptos?.map((currency) => (
+        {likedCryptos?.map((currency) => (
           <Col
             xs={24}
             sm={12}
@@ -66,14 +90,15 @@ const Cryptocurrencies = ({ simplified }) => {
                             
               </Card>
             </Link>
-           
-            <FontAwesomeIcon icon={faHeart} onClick={() => handleLike(currency.uuid)}/>
+
+            
+            <FontAwesomeIcon icon={faTrashCan} onClick={() => handleDelete(currency.uuid)}/>
             
           </Col>
         ))}
       </Row>
     </>
-  );
-};
+  )
+}
 
-export default Cryptocurrencies;
+export default Cryptos;

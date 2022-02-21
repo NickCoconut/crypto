@@ -41,6 +41,7 @@ module.exports = (db) => {
       if (!passwordMatch) {
         return res.json({loggedIn:false, status:"password doesnt match"})
       } else {
+        
         req.session.user = validUser.rows[0];
         return res.json({ loggedIn: true});
       }
