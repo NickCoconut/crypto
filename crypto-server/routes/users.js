@@ -12,15 +12,15 @@ module.exports = (db) => {
       [email]
     ); //checking email from the db
     if (emailExists.rows[0]) {
-      return res.json({ loggedIn: false});
+      return res.json({ loggedIn: false });
     } else {
       const hashedPassword = bcrypt.hashSync(password, 10);
       await db.query(
         `INSERT INTO users (user_name, email, password) VALUES ($1, $2, $3) RETURNING *;`,
         [username, email, hashedPassword]
       );
-      
-      return res.json({ signedUp: true});
+
+      return res.json({ signedUp: true });
     }
   });
 
@@ -32,25 +32,36 @@ module.exports = (db) => {
     ]); //checking email from the db
 
     if (!validUser.rows[0]) {
-      return res.json({loggedIn:false})
+      return res.json({ loggedIn: false });
     } else {
       const passwordMatch = bcrypt.compareSync(
         password,
         validUser.rows[0].password
       ); //checking the existing password with the inserted
       if (!passwordMatch) {
-        return res.json({loggedIn:false, status:"password doesnt match"})
+        return res.json({ loggedIn: false, status: "password doesnt match" });
       } else {
-        
         req.session.user = validUser.rows[0];
-        return res.json({ loggedIn: true});
+        return res.json({ loggedIn: true });
       }
     }
   });
 
-  router.post("/logout", (req, res) => {
-    req.session = null;
-    return res.status(200);
+  ///Logout doe work but doesnt clear session
+  router.post("/logout", async (req, res) => {
+    console.log("gets here");
+    req.session.user = null;
+    return res.json({ loggedIn: false });
+  });
+
+  ///Home
+  router.post("/", async (req, res) => {
+    const id = req.session?.user?.id;
+    if (!id) {
+      return res.json({ loggedIn: false });
+    } else {
+      return res.json({ loggedIn: true });
+    }
   });
 
   return router;
