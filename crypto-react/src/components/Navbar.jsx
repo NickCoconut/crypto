@@ -16,11 +16,7 @@ import icon from "../images/cryptocurrency.png";
 import axios from "axios";
 
 const Navbar = () => {
-  //Loggedin checker from the back end
-  let loggedIn =  axios.post("http://localhost:3001/users/").then((resp) => {
-    return resp.data.loggedIn;
-  })
-
+  
   //Post Logout
   function logout() {
     axios.post("http://localhost:3001/users/logout").then((resp) => {
@@ -28,7 +24,7 @@ const Navbar = () => {
     });
   }
 
-  function loggedinuser() {
+  function loggedinuser() { //Returns navbar with Home, News, Favorites, Logout
     return (
       <div className="nav-container">
         <div className="logo-container">
@@ -72,7 +68,7 @@ const Navbar = () => {
       </div>
     );
   }
-  function loggedoutuser() {
+  function loggedoutuser() { //Returns navbar with Home, News, Login, Register
     return (
       <div className="nav-container">
         <div className="logo-container">
@@ -138,7 +134,13 @@ const Navbar = () => {
     }
   }, [screenSize]);
 
-  return loggedoutuser();
+  //Loggedin checker from the back end, returns true or false after checking if theres a session
+  let loggedIn =  axios.post("http://localhost:3001/users/").then((resp) => {
+    return resp.data.loggedIn;
+  })
+
+  return loggedoutuser();//renders a logged out user nav bar
+  //return loggedinuser(); //renders a logged in user nav bar
 };
 
 export default Navbar;
