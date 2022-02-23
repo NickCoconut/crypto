@@ -185,22 +185,12 @@ const Navbar = () => {
     );
   }
 
-  function componentDidMount() {
-    axios.post("http://localhost:3001/users/").then((resp) => {
-      return resp.data.loggedIn;
-    });
-  }
+  let loggedIn = axios.post("http://localhost:3001/users/").then((resp) => {
+    return resp.data.loggedIn;
+  });
 
-  let loggedIn = componentDidMount;
   console.log(loggedIn);
 
-  //if (loggedIn === true) return loggedinuser();
-  //renders a logged out user nav bar
-  //else return loggedoutuser(); //renders a logged in user nav bar
-  function check(check) {
-    if (check === true) return loggedinuser();
-    else return loggedoutuser();
-  }
   return all();
 };
 
